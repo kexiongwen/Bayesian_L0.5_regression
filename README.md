@@ -45,9 +45,12 @@ $$
 ## Partially Collapsed Gibbs Sampler
 
 We first define some quantities that will be used in the PCG sampler scheme:
+
+
 $$
 D= \frac{1}{\lambda^{4}}\mathrm{Diag}(\tau^{2}), \quad M= \frac{XDX^{T}}{\sigma}+I_{N}
 $$
+
 
 
 We develop the PCG sampler that targets the exact horseshoe posterior with the following update rule:
