@@ -61,7 +61,7 @@ S1. Sample $\beta \sim \mathrm{N}_{P}\left(\left(X^{T} X+\sigma^2 D^{-1}\right)^
 
 
 
-S2. Sample $\lambda \sim$ Gamma $\left(2 p+0.5, \sum_{j=1}^{P} \left|\beta_{j}\right|^{\frac{1}{2}}+\frac{1}{b}\right)$
+S2. Sample $\lambda \sim$ Gamma $\left(2 p+0.5, \sum_{j=1}^{P} |\beta_{j}|^{\frac{1}{2}}+\frac{1}{b}\right)$
 
 
 
