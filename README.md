@@ -50,7 +50,7 @@ We develop the PCG sampler that targets the exact horseshoe posterior with the f
 
 
 
-S1. Sample $\beta \sim \mathrm{N}_{\mathrm{p}}\left(\left(X^{T} X+\sigma^2 \lambda^{4} D_{\tau^2}^{-1}\right)^{-1} X^{T} Y, \sigma^2\left(X^T X+\sigma^2 \lambda^{4} D_{\tau^2}^{-1}\right)^{-1}\right)$
+S1. Sample $\beta \sim \mathrm{N}_{P}\left(\left(X^{T} X+\sigma^2 \lambda^{4} D_{\tau^2}^{-1}\right)^{-1} X^{T} Y, \sigma^2\left(X^T X+\sigma^2 \lambda^{4} D_{\tau^2}^{-1}\right)^{-1}\right)$
 
 
 
@@ -122,9 +122,7 @@ In PCG sampler scheme for $L_{1/2}$ prior, we need to sample
 
 
 
-$\frac{1}{v_{j}} \mid \beta_{j}, \lambda,
-\sim \mathrm{InvGaussian}\left (\sqrt{\frac{1}{4\lambda^{2}|\beta_{j}|}},\frac{1}{2}\right) \quad \text{and}  \quad \frac{1}{{\tau}_{j}^{2}} \mid \lambda,\beta_{j},v_{j} 
-\sim  \mathrm{InvGaussian}\left (\frac{1}{{\lambda}^{2}{v}_{j}|\beta_{j}|},\frac{1}{{v}_{j}^{2}}\right)$
+$\frac{1}{v_{j}} \sim \operatorname{InvGaussian}\left(\sqrt{\frac{1}{4 \lambda^{ 2}\left|\beta_{j}\right|}}, \frac{1}{2}\right) \quad \text{and}  \quad \frac{1}{\tau_{j}} \sim \operatorname{InvGaussian}\left(\frac{1}{\lambda^{2} v_{j}\left|\beta_{j}\right|}, \frac{1}{v_{j}}\right)$
 
 
 
