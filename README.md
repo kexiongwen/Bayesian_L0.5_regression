@@ -13,8 +13,6 @@ $$
 L\left(Y \mid X \beta, \sigma^{2}\right)=\left(2 \pi \sigma^2\right)^{-N / 2} \exp\left[{-\frac{1}{2 \sigma^2}(Y-X \beta)^{T}(Y-X \beta)}\right]
 $$
 
-
-
 where $X$ is a $N \times P$ matrix of covariates, $\beta \in \mathbb{R}^{P}$ is assumed to be a sparse vector, and $Y \in \mathbb{R}^N$ is an $N$-vector of response observations. We assign a $L_{\frac{1}{2}}$ prior to $\beta$, such that
 
 
@@ -46,11 +44,17 @@ $$
 
 ## Partially Collapsed Gibbs Sampler
 
+We first define some quantities that will be used in the PCG sampler scheme:
+$$
+D= \frac{1}{\lambda^{4}}\mathrm{Diag}(\tau^{2}), \quad M= \frac{XDX^{T}}{\sigma}+I_{N}
+$$
+
+
 We develop the PCG sampler that targets the exact horseshoe posterior with the following update rule:
 
 
 
-S1. Sample $\beta \sim \mathrm{N}_{P}\left(\left(X^{T} X+\sigma^2 \lambda^{4} D_{\tau^{2}}^{-1}\right)^{-1} X^{T} Y, \sigma^{2}\left(X^{T} X+\sigma^{2} \lambda^{4} D_{\tau^2}^{-1}\right)^{-1}\right)$
+S1. Sample $\beta \sim \mathrm{N}_{P}\left(\left(X^{T} X+\sigma^2 D^{-1}\right)^{-1} X^{T} Y, \sigma^{2}\left(X^{T} X+\sigma^{2} D^{-1}\right)^{-1}\right)$
 
 
 
@@ -74,27 +78,26 @@ S6. Sample $b \sim \operatorname{InvGamma~}\left(1,1+\lambda\right)$
 
 
 
-where $D_{\tau^{2}}=\mathrm{Diag}(\tau^{2})$. **Note that unlike the traditional Gibbs sampler, some of the order for the update does matter in PCG sampler!!!**
-
-
-The efficient method from https://arxiv.org/pdf/1506.04778.pdf has been used to sample from the conditional posterior $\pi(\beta \mid \sigma^{2}, \lambda, \tau^2)$
+**Note that unlike the traditional Gibbs sampler, some of the order for the update does matter in PCG sampler!!!**
 
 
 
+The efficient method from https://arxiv.org/pdf/1506.04778.pdf has been used to sample from the conditional posterior $\pi(\beta \mid \sigma^{2}, \lambda, \tau^2)$:
 
-1. Sample $u  \sim \mathrm{N}\left(0, \lambda^{-4} D_{\tau^{2}}\right)$ and $f \sim \mathrm{N}\left(0, I_{N}\right)$
 
-2. $M=\frac{XD_{\tau^{2}}X^{T}}{\sigma\lambda^{4}}+I_{N}$
+
+
+1. Sample $u  \sim \mathrm{N}(0, D)$ and $f \sim \mathrm{N}\left(0, I_{N}\right)$
 
 3. Set   $v =\frac{Xu}{\sigma}+f$ and $v^{*}=M^{-1}(Y / \sigma-v)$
 
-4. Set  $\beta=u+\frac{1}{\sigma\lambda^{4}}D_{\tau^{2}}X^{T}v^{*}$
+4. Set  $\beta=u+\frac{1}{\sigma}DX^{T}v^{*}$
 
    
 
 ## JOB-approximation
 
-To further  the reduce computational cost per step, we employ the strategy from  https://jmlr.org/papers/v21/19-536.html  to approximate the matrix product $\frac{XD_{\tau^{2}}X^{T}}{\lambda^{4}}$ by hard-thresholding , resulting in
+To further  the reduce computational cost per step, we employ the strategy from  https://jmlr.org/papers/v21/19-536.html  to approximate the matrix product $XDX^{T}$ by hard-thresholding , resulting in
 
 
 $$
@@ -108,7 +111,7 @@ for “small” $\delta$. Using this strategy,the approximate algorithm uses the
 
 1. $M$ is replaced by $M_{\delta}$ everywhere that it appears in the PCG sampler; and
 
-2. In the final step of sampling $\pi(\beta \mid \sigma^{2}, \lambda, \tau^2)$, the quantity $\frac{1}{\lambda^{4}}D_{\tau^{2}} X^{T}$ is replaced by $D_\delta X^{T}$
+2. In the final step of sampling $\pi(\beta \mid \sigma^{2}, \lambda, \tau^2)$, the quantity $DX^{T}$ is replaced by $D_\delta X^{T}$
 
 
 
