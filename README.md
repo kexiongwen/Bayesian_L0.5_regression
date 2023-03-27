@@ -61,7 +61,7 @@ S1. Sample $\beta \sim \mathrm{N}_{P}\left(\left(X^{T} X+\sigma^2 D^{-1}\right)^
 
 
 
-S2. Sample $\lambda \sim$ Gamma $\left(2 p+0.5, \sum_{j=1}^{P} |\beta_{j}|^{\frac{1}{2}}+\frac{1}{b}\right)$
+S2. Sample $\lambda \sim$ Gamma $\left(2P+0.5, \sum_{j=1}^{P} |\beta_{j}|^{1/2}+1/b \right)$
 
 
 
@@ -150,7 +150,7 @@ Sample  $v_{j} \mid \beta_{j},\lambda \sim \mathrm{Gamma}(\frac{1}{2},\frac{1}{4
 
 Sample $\tau_{j}^{2} \mid \lambda,\beta_{j},v_{j} \sim \mathrm{Gamma}(\frac{1}{2},\frac{1}{2v_{j}^{2}})$
 
-In practice, we find setting $\Delta \leq 1e^{-5}$  the resulting approximation error is negligible.
+In practice, we find that, by setting $\Delta \leq 1e^{-5}$,  the resulting approximation error is negligible.
 
 
 
