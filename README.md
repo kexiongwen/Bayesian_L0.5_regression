@@ -104,7 +104,7 @@ To further  the reduce computational cost per step, we employ the strategy from 
 
 
 $$
-M \approx I_{N}+\frac{1}{\sigma}XD_{\delta}X, \quad D_{\delta}=\frac{1}{\lambda^{4}}\mathrm{Diag}(\tau_{j}^{2}1({\tau_{j}^{2}/\lambda^{4}>\delta}))
+M \approx I_{N}+\frac{1}{\sigma^{2}}XD_{\delta}X, \quad D_{\delta}=\frac{1}{\lambda^{4}}\mathrm{Diag}(\tau_{j}^{2}1({\tau_{j}^{2}/\lambda^{4}>\delta}))
 $$
 
 
