@@ -50,15 +50,25 @@ We develop the PCG sampler that targets the exact horseshoe posterior with the f
 
 
 
-S1. Sample $\beta \sim \mathrm{N}_{\mathrm{p}}\left(\left(X^T X+\sigma^2 \lambda^4 D_{\tau^2}^{-1}\right)^{-1} X^T Y, \sigma^2\left(X^T X+\sigma^2 \lambda^4 D_{\tau^2}^{-1}\right)^{-1}\right)$
+S1. Sample $\beta \sim \mathrm{N}_{\mathrm{p}}\left(\left(X^{T} X+\sigma^2 \lambda^{4} D_{\tau^2}^{-1}\right)^{-1} X^{T} Y, \sigma^2\left(X^T X+\sigma^2 \lambda^{4} D_{\tau^2}^{-1}\right)^{-1}\right)$
+
+
 
 S2. Sample $\lambda \sim$ Gamma $\left(2 p+0.5, \sum_{j=1}^p\left|\beta_{j}\right|^{\frac{1}{2}}+\frac{1}{b}\right)$
 
+
+
 S3. Sample $\frac{1}{v_{j}} \sim \operatorname{InvGaussian}\left(\sqrt{\frac{1}{4 \lambda^{ 2}\left|\beta_{j}\right|}}, \frac{1}{2}\right), \quad j=1, \ldots, p$ 
+
+
 
 S4. Sample $\frac{1}{\tau_{j}} \sim \operatorname{InvGaussian}\left(\frac{1}{\lambda^{2} v_{j}\left|\beta_{j}\right|}, \frac{1}{v_{j}}\right), \quad j=1, \ldots, p$
 
+
+
 S5. Sample $\sigma^{2} \sim \operatorname{InvGamma}\left(\frac{n}{2}, \frac{1}{2}\left(Y-X \beta\right)^T\left(Y-X \beta\right)\right)$
+
+
 
 S6. Sample $b \sim \operatorname{InvGamma~}\left(1,1+\lambda\right)$
 
@@ -88,7 +98,7 @@ To further  the reduce computational cost per step, we employ the strategy from 
 
 
 $$
-M \approx I_{N}+\frac{1}{\sigma}XD_{\delta}X, \quad D_{\delta}=\frac{1}{\lambda^{4}}\mathrm{Diag}(\tau_{j}^{2}\bold{1}({\tau_{j}^{2}/\lambda^{4}>\delta}))
+M \approx I_{N}+\frac{1}{\sigma}XD_{\delta}X, \quad D_{\delta}=\frac{1}{\lambda^{4}}\mathrm{Diag}(\tau_{j}^{2}1({\tau_{j}^{2}/\lambda^{4}>\delta}))
 $$
 
 
@@ -113,12 +123,14 @@ In PCG sampler scheme for $L_{1/2}$ prior, we need to sample
 
 
 $\frac{1}{v_{j}} \mid \beta_{j}, \lambda,
-\sim \mathrm{InvGaussian}\left (\sqrt{\frac{1}{4\lambda^{2}|\beta_{j}|}},\frac{1}{2}\right)$ and $\frac{1}{{\tau}_{j}^{2}} \mid \lambda,\beta_{j},v_{j} 
+\sim \mathrm{InvGaussian}\left (\sqrt{\frac{1}{4\lambda^{2}|\beta_{j}|}},\frac{1}{2}\right) \quad \text{and}  \quad \frac{1}{{\tau}_{j}^{2}} \mid \lambda,\beta_{j},v_{j} 
 \sim  \mathrm{InvGaussian}\left (\frac{1}{{\lambda}^{2}{v}_{j}|\beta_{j}|},\frac{1}{{v}_{j}^{2}}\right)$
 
 
 
 When $\lambda^{2}|\beta_{j}| \rightarrow 0$ ,  the mode, the mean and the variance of conditional posterior of $\frac{1}{v_{j}}$ and $\frac{1}{\tau_{j}^{2}}$ will tend to infinte. In high dimension and very sparse setting, in very rarely case this will lead to the numerical instable problem. Python will report divide by zero encountered in true divide when evaulating $\sqrt{\frac{1}{4\lambda^{2}|\beta_{j}|}}$ or $\frac{1}{{\lambda}^{2}{v}_{j}|\beta_{j}|}$. 
+
+
 
 We see that 
 
