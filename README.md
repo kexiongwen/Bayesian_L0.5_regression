@@ -50,7 +50,7 @@ We develop the PCG sampler that targets the exact horseshoe posterior with the f
 
 
 
-S1. Sample $\beta \sim \mathrm{N}_{P}\left(\left(X^{T} X+\sigma^2 \lambda^{4} D_{\tau^2}^{-1}\right)^{-1} X^{T} Y, \sigma^2\left(X^T X+\sigma^2 \lambda^{4} D_{\tau^2}^{-1}\right)^{-1}\right)$
+S1. Sample $\beta \sim \mathrm{N}_{P}\left(\left(X^{T} X+\sigma^2 \lambda^{4} D_{\tau^{2}}^{-1}\right)^{-1} X^{T} Y, \sigma^{2}\left(X^{T} X+\sigma^{2} \lambda^{4} D_{\tau^2}^{-1}\right)^{-1}\right)$
 
 
 
@@ -126,7 +126,7 @@ $\frac{1}{v_{j}} \sim \operatorname{InvGaussian}\left(\sqrt{\frac{1}{4 \lambda^{
 
 
 
-When $\lambda^{2}|\beta_{j}| \rightarrow 0$ ,  the mode, the mean and the variance of conditional posterior of $\frac{1}{v_{j}}$ and $\frac{1}{\tau_{j}^{2}}$ will tend to infinte. In high dimension and very sparse setting, in very rarely case this will lead to the numerical instable problem. Python will report divide by zero encountered in true divide when evaulating $\sqrt{\frac{1}{4\lambda^{2}|\beta_{j}|}}$ or $\frac{1}{{\lambda}^{2}{v}_{j}|\beta_{j}|}$. 
+When $\lambda^{2}|\beta_{j}| \rightarrow 0$ ,  the mode, the mean and the variance of conditional posterior of $\frac{1}{v_{j}}$ and $\frac{1}{\tau_{j}^{2}}$ will tend to infinte. In high dimension and very sparse setting, in very rarely case this will lead to the numerical instable problem. Python will report divide by zero encountered in true divide when evaulating $\sqrt{\frac{1}{4\lambda^{2}|\beta_{j}|}}$ or $\frac{1}{{\lambda}^{2}v_{j}|\beta_{j}|}$. 
 
 
 
