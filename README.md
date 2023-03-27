@@ -157,7 +157,7 @@ In practice, we find that, by setting $\Delta \leq 1e^{-5}$,  the resulting appr
 ## Usage
 
 ```
-beta_sample,sigma2_sample=Bayesian_L0.5_regression(Y,X,M=10000,burn_in=10000) 
+beta_sample,sigma2_sample=Bayesian_L_half_regression(Y,X,M=10000,burn_in=10000) 
 
 beta_mean=np.mean(beta_sample,axis=1)
 
