@@ -67,7 +67,7 @@ S6. Sample $b \sim \operatorname{InvGamma~}\left(1,1+\lambda\right)$
 where $D_{\tau^{2}}=\mathrm{Diag}(\tau^{2})$. **Note that unlike the traditional Gibbs sampler, some of the order for the update does matter in PCG sampler!!!**
 
 
-The efficient method from https://arxiv.org/pdf/1506.04778.pdf has been used to sample from the conditional posterior $\pi(\beta \mid \sigma^{2}, \lambda, \tau^2) \sim \mathrm{N}_{\mathrm{p}}\left(\left(X^T X+\sigma^2 \lambda^4 D_{\tau^2}^{-1}\right)^{-1} X^T Y, \sigma^2\left(X^T X+\sigma^2 \lambda^4 D_{\tau^2}^{-1}\right)^{-1}\right)$:
+The efficient method from https://arxiv.org/pdf/1506.04778.pdf has been used to sample from the conditional posterior $\pi(\beta \mid \sigma^{2}, \lambda, \tau^2)$
 
 
 
@@ -85,9 +85,13 @@ The efficient method from https://arxiv.org/pdf/1506.04778.pdf has been used to 
 ## JOB-approximation
 
 To further  the reduce computational cost per step, we employ the strategy from  https://jmlr.org/papers/v21/19-536.html  to approximate the matrix product $\frac{XD_{\tau^{2}}X^{T}}{\lambda^{4}}$ by hard-thresholding , resulting in
+
+
 $$
 M \approx I_{N}+\frac{1}{\sigma}XD_{\delta}X, \quad D_{\delta}=\frac{1}{\lambda^{4}}\mathrm{Diag}(\tau_{j}^{2}\bold{1}({\tau_{j}^{2}/\lambda^{4}>\delta}))
 $$
+
+
 for “small” $\delta$. Using this strategy,the approximate algorithm uses the same update rule as in the MCMC scheme above, with only two changes:
 
 
