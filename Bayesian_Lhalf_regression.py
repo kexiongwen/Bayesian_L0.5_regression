@@ -1,6 +1,5 @@
 import numpy as np
 from scipy import sparse
-from scipy.sparse import spdiags
 from scipy.stats import invgamma
 from scipy.stats import invgauss
 
@@ -31,13 +30,14 @@ def Bayesian_L_half_regression(Y,X,M=10000,burn_in=10000):
         #Sample beta
         sigma=(sigma2_sample[i-1]**0.5)
         D=tau_sample/lam_sample**2
-        Mask1=(D>T1).astype(float)
-        D_diag=spdiags(Mask1*D,0,P,P)
+        Mask1=D>T1
+        D_diag=sparse.diags(D[Mask1])
         mu=np.random.randn(P,1)*D.reshape(P,1)
-        XD=sparse.csr_matrix.dot(X,D_diag)
-        omega=XD@XD.T/sigma2_sample[i-1]+sparse.diags(np.ones(N))
+        DXT=D_diag.dot(X[:,Mask1].T)
+        omega=DXT.T@DXT/sigma2_sample[i-1]+sparse.diags(np.ones(N))
         v=np.linalg.solve(omega, (Y/sigma-X@mu/sigma-np.random.randn(N,1)))
-        beta_sample[:,i:i+1]=mu+sparse.csr_matrix.dot(D_diag,XD.T)@v/sigma
+        beta_sample[:,i:i+1][Mask1]=mu[Mask1]+D_diag.dot(DXT).dot(v)/sigma
+        beta_sample[:,i:i+1][~Mask1]=mu[~Mask1]
 
         #Sample lambda
         lam_sample=np.random.gamma(2*P+0.5,((np.abs(beta_sample[:,i])**0.5).sum()+0.5/a_sample)**-1)
@@ -55,7 +55,7 @@ def Bayesian_L_half_regression(Y,X,M=10000,burn_in=10000):
         #Sample tau2
         Mask3=(ink<T3)
         tau_sample[~Mask3]=v_sample[~Mask3]/np.sqrt(invgauss.rvs(v_sample[~Mask3]/ink[~Mask3]))
-        tau_sample[Mask3]=np.sqrt(np.random.gamma(0.5,0.5/v_sample[Mask3]**2))
+        tau_sample[Mask3]=np.sqrt(np.random.gamma(0.5,0.5/np.square(v_sample[Mask3])))
                 
         #Sample sigma2
         sigma2_sample[i]=invgamma.rvs(N/2)*(0.5*YTY-beta_sample[:,i:i+1].T@XTY+0.5*beta_sample[:,i:i+1].T@XTX@beta_sample[:,i:i+1])   
@@ -108,10 +108,10 @@ def conjugated_L_half(Y,X,M=10000,burn_in=10000):
 
         #Sample sigma2
         D=tau_sample/lam_sample**2
-        Mask1=(D>T1).astype(float)
-        D_diag=spdiags(Mask1*D,0,P,P)
-        XD=sparse.csr_matrix.dot(X,D_diag)
-        omega=XD@XD.T+sparse.diags(np.ones(N))
+        Mask1=D>T1
+        D_diag=sparse.diags(D[Mask1])
+        DXT=D_diag.dot(X[:,Mask1].T)
+        omega=DXT.T@DXT+sparse.diags(np.ones(N))
         YT_omega_inv_Y=Y.T@np.linalg.solve(omega,Y)
         sigma2_sample[i]=invgamma.rvs((w+N)/2)*0.5*(w+YT_omega_inv_Y)
 
@@ -119,7 +119,8 @@ def conjugated_L_half(Y,X,M=10000,burn_in=10000):
         sigma=(sigma2_sample[i]**0.5)
         mu=np.random.randn(P,1)*D.reshape(P,1)
         v=np.linalg.solve(omega, (Y/sigma-X@mu-np.random.randn(N,1)))
-        beta_sample[:,i:i+1]=sigma*(mu+sparse.csr_matrix.dot(D_diag,XD.T)@v)   
+        beta_sample[:,i:i+1][Mask1]=sigma*(mu[Mask1]+D_diag.dot(DXT).dot(v))
+        beta_sample[:,i:i+1][~Mask1]=sigma*mu[~Mask1]
                       
     #End of MCMC chain
                 

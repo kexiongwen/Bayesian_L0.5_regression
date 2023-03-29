@@ -154,6 +154,18 @@ In practice, we find that, by setting $\Delta \leq 1e^{-5}$,  the resulting appr
 
 
 
+##  Conjugated $L_\frac{1}{2}$ prior 
+
+In this section, we consider the conjugated setting of $L_\frac{1}{2}$ prior.
+
+
+
+
+
+
+
+
+
 ## Usage
 
 ```
