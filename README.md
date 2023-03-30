@@ -156,14 +156,18 @@ In practice, we find that, by setting $\Delta \leq 1e^{-5}$,  the resulting appr
 
 ##  PCG sampler for Conjugated $L_\frac{1}{2}$ prior 
 
-Conjugate priors is very popular in Bayesian linear regression. The conjugate prior begins with specifying a prior on $\beta$ that depends on $\sigma$, such that 
+Conjugate priors is very popular in Bayesian linear regression. The conjugate prior begins with specifying a prior on $\beta$ that depends on $\sigma$, such that
+
 $$
 \pi\left(\beta \mid \sigma^2\right)=\frac{1}{\sigma^{P}} h(\beta / \sigma)
 $$
-One of the reason for the popularity of the conjugate prior framework is that it often allows for marginalization over $\beta$ and $\sigma$ , resulting in closed form expressions for Bayes factors and updates of posterior model probabilities. For conjugated $L_{\frac{1}{2}}$ prior, we have
+
+One of the reason for the popularity of the conjugate prior framework is that it often allows for marginalization over  $\beta$ and  $\sigma$ , resulting in closed form expressions for Bayes factors and updates of posterior model probabilities. For conjugated $L_{\frac{1}{2}}$ prior, we have
+
 $$
 \pi(\beta_{j}\mid \sigma, \lambda) \propto \exp[-\lambda|\beta_{j}/\sigma|^{\frac{1}{2}}]
 $$
+
 with the same hyper-prior as before. Then we can construct the PCG sampler:
 
 
@@ -198,7 +202,7 @@ where $H=XDX^{T}+I_{N}$
 
 ### Warning 
 
-However, it was argued by this paper https://projecteuclid.org/journals/bayesian-analysis/volume-14/issue-4/Variance-Prior-Forms-for-High-Dimensional-Bayesian-Variable-Selection/10.1214/19-BA1149.full that the use of conjugate shrinkage priors can lead to underestimation of variance in high dimensional linear regression setting.  We also observed this phenomenon in both our Conjugated $L_\frac{1}{2}$ prior and conjugated horseshoe prior. 
+However, it was argued by this paper https://projecteuclid.org/journals/bayesian-analysis/volume-14/issue-4/Variance-Prior-Forms-for-High-Dimensional-Bayesian-Variable-Selection/10.1214/19-BA1149.full that the use of conjugate shrinkage priors can lead to underestimation of variance in high dimensional linear regression setting.  We also observed this phenomenon in both our Conjugated $L_{\frac{1}{2}}$ prior and conjugated horseshoe prior. 
 
 In fact, the underestimation of variance also exists for using independent prior for $\beta$, and $\sigma^{2}$ when $N<P$ and $N$ is not large enough. But it will gradually vanish as $N$ and $P$ increase together with some rate.  For the conjugated setting, we never observe the vanish of variance underestimation in high dimesnional setting.
 
@@ -233,11 +237,6 @@ sigma2_mean=np.mean(sigma2_sample)
 
 sigma2_median=np.median(sigma2_sample)
 ```
-
-
-
-
-
 
 
 $Y$ is the vector of response with length $N$ and $X$ is $N \times P$ covariate matrix. $M$ is the number of the samples from MCMC with default setting 10000. burn_in is the burn in period for MCMC with default setting 10000.  
