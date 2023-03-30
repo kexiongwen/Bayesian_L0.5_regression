@@ -154,15 +154,53 @@ In practice, we find that, by setting $\Delta \leq 1e^{-5}$,  the resulting appr
 
 
 
-##  Conjugated $L_\frac{1}{2}$ prior 
+##  PCG sampler for Conjugated $L_\frac{1}{2}$ prior 
 
-In this section, we consider the conjugated setting of $L_\frac{1}{2}$ prior.
+Conjugate priors is very popular in Bayesian linear regression. The conjugate prior begins with specifying a prior on $\beta$ that depends on $\sigma$, such that 
+$$
+\pi\left(\boldsymbol{\beta} \mid \sigma^2\right)=\frac{1}{\sigma^p} h(\boldsymbol{\beta} / \sigma)
+$$
+One of the reason for the popularity of the conjugate prior framework is that it often allows for marginalization over $\beta$ and $\sigma$ , resulting in closed form expressions for Bayes factors and updates of posterior model probabilities. For conjugated $L_{\frac{1}{2}}$ prior, we have
+$$
+\pi(\beta_{j}\mid \sigma, \lambda) \propto \exp[-\lambda|\beta_{j}/\sigma|^{\frac{1}{2}}]
+$$
+with the same hyper-prior as before. Then we can construct the PCG sampler:
 
 
 
+S1. Sample $\lambda \sim$ Gamma $\left(2P+0.5, \sum_{j=1}^{P} |\sigma\beta_{j}|^{1/2}+1/b \right)$
 
 
 
+S2. Sample $b \sim \operatorname{InvGamma~}\left(1,1+\lambda\right)$
+
+
+
+S3. Sample $\frac{1}{v_{j}} \sim \operatorname{InvGaussian}\left(\sqrt{\frac{\sigma}{4 \lambda^{ 2}\left|\beta_{j}\right|}}, \frac{1}{2}\right), \quad j=1, \ldots, p$ 
+
+
+
+S4. Sample $\frac{1}{\tau_{j}} \sim \operatorname{InvGaussian}\left(\frac{\sigma}{\lambda^{2} v_{j}\left|\beta_{j}\right|}, \frac{1}{v_{j}}\right), \quad j=1, \ldots, p$
+
+
+
+S5. Sample $\sigma^{2} \sim \operatorname{InvGamma}\left(\frac{n}{2}, \frac{1}{2}\left(Y-X \beta\right)^T\left(Y-X \beta\right)\right)$
+
+
+
+S6. Sample $\beta \sim \mathrm{N}_{P}\left(\left(X^{T} X+ D^{-1}\right)^{-1} X^{T} Y, \sigma^{2}\left(X^{T} X+ D^{-1}\right)^{-1}\right)$
+
+
+
+### Warning 
+
+However, it was argued by this paper https://projecteuclid.org/journals/bayesian-analysis/volume-14/issue-4/Variance-Prior-Forms-for-High-Dimensional-Bayesian-Variable-Selection/10.1214/19-BA1149.full that the use of conjugate shrinkage priors can lead to underestimation of variance in high dimensional linear regression setting.  We also observed this phenomenon in both our Conjugated $L_\frac{1}{2}$ prior and conjugated horseshoe prior. 
+
+
+
+In fact, the underestimation of variance also exists for using independent prior for $\beta$, and $\sigma^{2}$ when $N<P$ and $N$ is not large enough. But it will gradually vanish as $N$ and $P$ increase together with some rate.  For the conjugated setting, we never observe the vanish of variance underestimation in high dimesnional setting.
+
+**Although we also provide the code of PCG sampler for conjugated $L_{\frac{1}{2}}$ prior,  we never recommend to use it in high dimensional linear regression problem.** 
 
 
 
@@ -214,6 +252,14 @@ $Y$ is the vector of response with length $N$ and $X$ is $N \times P$ covariate 
   author={Ke, Xiongwen and Fan, Yanan},
   journal={arXiv preprint arXiv:2108.03464},
   year={2021}
+}
+```
+
+```
+@article{moran2019variance,
+  title={Variance prior forms for high-dimensional Bayesian variable selection},
+  author={Moran, Gemma E and Ro{\v{c}}kov{\'a}, Veronika and George, Edward I},
+  year={2019}
 }
 ```
 
