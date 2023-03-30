@@ -66,10 +66,10 @@ def Bayesian_L_half_regression(Y,X,M=10000,burn_in=10000):
     
     return MCMC_chain
 
-def conjugated_L_half(Y,X,M=10000,burn_in=10000):
+def Conjugated_L_half(Y,X,M=10000,burn_in=10000):
     
     N,P=np.shape(X)
-    w=1
+    w=0
     T1=1e-2
     T2=1e-5
     T3=1e-5

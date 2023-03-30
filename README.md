@@ -73,7 +73,7 @@ S4. Sample $\frac{1}{\tau_{j}} \sim \operatorname{InvGaussian}\left(\frac{1}{\la
 
 
 
-S5. Sample $\sigma^{2} \sim \operatorname{InvGamma}\left(\frac{n}{2}, \frac{1}{2}\left(Y-X \beta\right)^T\left(Y-X \beta\right)\right)$
+S5. Sample $\sigma^{2} \sim \operatorname{InvGamma}\left(\frac{N}{2}, \frac{1}{2}\left(Y-X \beta\right)^T\left(Y-X \beta\right)\right)$
 
 
 
@@ -158,7 +158,7 @@ In practice, we find that, by setting $\Delta \leq 1e^{-5}$,  the resulting appr
 
 Conjugate priors is very popular in Bayesian linear regression. The conjugate prior begins with specifying a prior on $\beta$ that depends on $\sigma$, such that 
 $$
-\pi\left(\beta \mid \sigma^2\right)=\frac{1}{\sigma^{P}} h(\boldsymbol{\beta} / \sigma)
+\pi\left(\beta \mid \sigma^2\right)=\frac{1}{\sigma^{P}} h(\beta / \sigma)
 $$
 One of the reason for the popularity of the conjugate prior framework is that it often allows for marginalization over $\beta$ and $\sigma$ , resulting in closed form expressions for Bayes factors and updates of posterior model probabilities. For conjugated $L_{\frac{1}{2}}$ prior, we have
 $$
@@ -184,7 +184,7 @@ S4. Sample $\frac{1}{\tau_{j}} \sim \operatorname{InvGaussian}\left(\frac{\sigma
 
 
 
-S5. Sample $\sigma^{2} \sim \operatorname{InvGamma}\left(\frac{n}{2}, \frac{1}{2}\left(Y-X \beta\right)^T\left(Y-X \beta\right)\right)$
+S5. Sample $\sigma^{2} \sim \operatorname{InvGamma}\left(\frac{N}{2}, \frac{Y^{T} H^{-1} Y}{2}\right)$
 
 
 
@@ -192,11 +192,13 @@ S6. Sample $\beta \sim \mathrm{N}_{P}\left(\left(X^{T} X+ D^{-1}\right)^{-1} X^{
 
 
 
+where $H=XDX^{T}+I_{N}$
+
+
+
 ### Warning 
 
 However, it was argued by this paper https://projecteuclid.org/journals/bayesian-analysis/volume-14/issue-4/Variance-Prior-Forms-for-High-Dimensional-Bayesian-Variable-Selection/10.1214/19-BA1149.full that the use of conjugate shrinkage priors can lead to underestimation of variance in high dimensional linear regression setting.  We also observed this phenomenon in both our Conjugated $L_\frac{1}{2}$ prior and conjugated horseshoe prior. 
-
-
 
 In fact, the underestimation of variance also exists for using independent prior for $\beta$, and $\sigma^{2}$ when $N<P$ and $N$ is not large enough. But it will gradually vanish as $N$ and $P$ increase together with some rate.  For the conjugated setting, we never observe the vanish of variance underestimation in high dimesnional setting.
 
@@ -217,6 +219,26 @@ sigma2_mean=np.mean(sigma2_sample)
 
 sigma2_median=np.median(sigma2_sample)
 ```
+
+
+
+```
+beta_sample,sigma2_sample=Conjugated_L_half(Y,X,M=10000,burn_in=10000) 
+
+beta_mean=np.mean(beta_sample,axis=1)
+
+beta_median=np.median(beta_sample,axis=1)
+
+sigma2_mean=np.mean(sigma2_sample)
+
+sigma2_median=np.median(sigma2_sample)
+```
+
+
+
+
+
+
 
 $Y$ is the vector of response with length $N$ and $X$ is $N \times P$ covariate matrix. $M$ is the number of the samples from MCMC with default setting 10000. burn_in is the burn in period for MCMC with default setting 10000.  
 
