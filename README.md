@@ -158,7 +158,7 @@ In practice, we find that, by setting $\Delta \leq 1e^{-5}$,  the resulting appr
 
 Conjugate priors is very popular in Bayesian linear regression. The conjugate prior begins with specifying a prior on $\beta$ that depends on $\sigma$, such that 
 $$
-\pi\left(\boldsymbol{\beta} \mid \sigma^2\right)=\frac{1}{\sigma^p} h(\boldsymbol{\beta} / \sigma)
+\pi\left(\beta \mid \sigma^2\right)=\frac{1}{\sigma^{P}} h(\boldsymbol{\beta} / \sigma)
 $$
 One of the reason for the popularity of the conjugate prior framework is that it often allows for marginalization over $\beta$ and $\sigma$ , resulting in closed form expressions for Bayes factors and updates of posterior model probabilities. For conjugated $L_{\frac{1}{2}}$ prior, we have
 $$
