@@ -202,9 +202,7 @@ where $H=XDX^{T}+I_{N}$
 
 ### Warning 
 
-However, it was argued by this paper https://projecteuclid.org/journals/bayesian-analysis/volume-14/issue-4/Variance-Prior-Forms-for-High-Dimensional-Bayesian-Variable-Selection/10.1214/19-BA1149.full that the use of conjugate shrinkage priors can lead to underestimation of variance in high dimensional linear regression setting.  We also observed this phenomenon in both our Conjugated $L_{\frac{1}{2}}$ prior and conjugated horseshoe prior. 
-
-In fact, the underestimation of variance also exists for using independent prior for $\beta$, and $\sigma^{2}$ when $N<P$ and $N$ is not large enough. But it will gradually vanish as $N$ and $P$ increase together with some rate.  For the conjugated setting, we never observe the vanish of variance underestimation in high dimesnional setting.
+However, it was argued by this paper https://projecteuclid.org/journals/bayesian-analysis/volume-14/issue-4/Variance-Prior-Forms-for-High-Dimensional-Bayesian-Variable-Selection/10.1214/19-BA1149.full that the use of conjugate shrinkage priors can lead to underestimation of variance in high dimensional linear regression setting.  We also observed this phenomenon in both  Conjugated $L_{\frac{1}{2}}$ prior and conjugated horseshoe prior. 
 
 **Although we also provide the code of PCG sampler for conjugated $L_{\frac{1}{2}}$ prior,  we never recommend to use it in high dimensional linear regression problem.** 
 
