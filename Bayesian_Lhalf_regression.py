@@ -9,6 +9,7 @@ def Bayesian_L_half_regression(Y,X,M=10000,burn_in=10000):
     XTX=X.T@X
     XTY=X.T@Y
     YTY=Y.T@Y
+    w=1
 
     T1=1e-2
     T2=1e-5
@@ -43,7 +44,7 @@ def Bayesian_L_half_regression(Y,X,M=10000,burn_in=10000):
         lam_sample=np.random.gamma(2*P+0.5,((np.abs(beta_sample[:,i])**0.5).sum()+0.5/a_sample)**-1)
             
         #sample_a
-        a_sample=invgamma.rvs(0.75)*(1+0.5*lam_sample)
+        a_sample=invgamma.rvs(1)*(1+0.5*lam_sample)
 
         ink=lam_sample**2*np.abs(beta_sample[:,i])
             
@@ -58,7 +59,7 @@ def Bayesian_L_half_regression(Y,X,M=10000,burn_in=10000):
         tau_sample[Mask3]=np.sqrt(np.random.gamma(0.5,0.5/np.square(v_sample[Mask3])))
                 
         #Sample sigma2
-        sigma2_sample[i]=invgamma.rvs(N/2)*(0.5*YTY-beta_sample[:,i:i+1].T@XTY+0.5*beta_sample[:,i:i+1].T@XTX@beta_sample[:,i:i+1])   
+        sigma2_sample[i]=invgamma.rvs((w+N)/2)*(0.5*w+0.5*YTY-beta_sample[:,i:i+1].T@XTY+0.5*beta_sample[:,i:i+1].T@XTX@beta_sample[:,i:i+1])   
             
     #End of MCMC chain
              
@@ -69,7 +70,7 @@ def Bayesian_L_half_regression(Y,X,M=10000,burn_in=10000):
 def Conjugated_L_half(Y,X,M=10000,burn_in=10000):
     
     N,P=np.shape(X)
-    w=0
+    w=1
     T1=1e-2
     T2=1e-5
     T3=1e-5
