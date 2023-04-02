@@ -41,22 +41,22 @@ def Bayesian_L_half_regression(Y,X,M=10000,burn_in=10000):
         beta_sample[:,i:i+1][~Mask1]=mu[~Mask1]
 
         #Sample lambda
-        lam_sample=np.random.gamma(2*P+0.5,((np.abs(beta_sample[:,i])**0.5).sum()+0.5/a_sample)**-1)
+        lam_sample=np.random.gamma(2*P+0.5,((np.abs(beta_sample[:,i])**0.5).sum()+1/a_sample)**-1)
             
         #sample_a
-        a_sample=invgamma.rvs(1)*(1+0.5*lam_sample)
+        a_sample=invgamma.rvs(1)*(1+lam_sample)
 
         ink=lam_sample**2*np.abs(beta_sample[:,i])
             
         #Sample V
         Mask2=(ink<T2)
         v_sample[~Mask2]=2/invgauss.rvs(np.reciprocal(np.sqrt(ink[~Mask2])))
-        v_sample[Mask2]=np.random.gamma(0.5,0.25*np.ones_like(v_sample[Mask2]))
+        v_sample[Mask2]=np.random.gamma(0.5,4*np.ones_like(v_sample[Mask2]))
 
         #Sample tau2
         Mask3=(ink<T3)
         tau_sample[~Mask3]=v_sample[~Mask3]/np.sqrt(invgauss.rvs(v_sample[~Mask3]/ink[~Mask3]))
-        tau_sample[Mask3]=np.sqrt(np.random.gamma(0.5,0.5/np.square(v_sample[Mask3])))
+        tau_sample[Mask3]=np.sqrt(np.random.gamma(0.5,2*np.square(v_sample[Mask3])))
                 
         #Sample sigma2
         sigma2_sample[i]=invgamma.rvs((w+N)/2)*(0.5*w+0.5*YTY-beta_sample[:,i:i+1].T@XTY+0.5*beta_sample[:,i:i+1].T@XTX@beta_sample[:,i:i+1])   
@@ -100,12 +100,12 @@ def Conjugated_L_half(Y,X,M=10000,burn_in=10000):
         #Sample V
         Mask2=(ink<T2)
         v_sample[~Mask2]=2/invgauss.rvs(np.reciprocal(np.sqrt(ink[~Mask2])))
-        v_sample[Mask2]=np.random.gamma(0.5,0.25*np.ones_like(v_sample[Mask2]))
+        v_sample[Mask2]=np.random.gamma(0.5,4*np.ones_like(v_sample[Mask2]))
 
         #Sample tau2
         Mask3=(ink<T3)
         tau_sample[~Mask3]=v_sample[~Mask3]/np.sqrt(invgauss.rvs(v_sample[~Mask3]/ink[~Mask3]))
-        tau_sample[Mask3]=np.sqrt(np.random.gamma(0.5,0.5/np.square(v_sample[Mask3])))
+        tau_sample[Mask3]=np.sqrt(np.random.gamma(0.5,2*np.square(v_sample[Mask3])))
 
         #Sample sigma2
         D=tau_sample/lam_sample**2
