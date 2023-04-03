@@ -69,7 +69,7 @@ S3. Sample $\frac{1}{v_{j}} \sim \operatorname{InvGaussian}\left(\sqrt{\frac{1}{
 
 
 
-S4. Sample $\frac{1}{\tau_{j}} \sim \operatorname{InvGaussian}\left(\frac{1}{\lambda^{2} v_{j}\left|\beta_{j}\right|}, \frac{1}{v_{j}}\right), \quad j=1, \ldots, p$
+S4. Sample $\frac{1}{\tau_{j}} \sim \operatorname{InvGaussian}\left(\frac{1}{\lambda^{2} v_{j}\left|\beta_{j}\right|}, \frac{1}{v_{j}^{2}}\right), \quad j=1, \ldots, p$
 
 
 
@@ -172,7 +172,7 @@ with the same hyper-prior as before. Then we can construct the PCG sampler:
 
 
 
-S1. Sample $\lambda \sim$ Gamma $\left(2P+0.5, \sum_{j=1}^{P} |\sigma\beta_{j}|^{1/2}+1/b \right)$
+S1. Sample $\lambda \sim$ Gamma $\left(2P+0.5, \sum_{j=1}^{P} |\beta_{j}/\sigma|^{1/2}+1/b \right)$
 
 
 
@@ -184,7 +184,7 @@ S3. Sample $\frac{1}{v_{j}} \sim \operatorname{InvGaussian}\left(\sqrt{\frac{\si
 
 
 
-S4. Sample $\frac{1}{\tau_{j}} \sim \operatorname{InvGaussian}\left(\frac{\sigma}{\lambda^{2} v_{j}\left|\beta_{j}\right|}, \frac{1}{v_{j}}\right), \quad j=1, \ldots, p$
+S4. Sample $\frac{1}{\tau_{j}} \sim \operatorname{InvGaussian}\left(\frac{\sigma}{\lambda^{2} v_{j}\left|\beta_{j}\right|}, \frac{1}{v_{j}^{2}}\right), \quad j=1, \ldots, p$
 
 
 

@@ -53,7 +53,7 @@ def Bayesian_L_half_regression(Y,X,M=10000,burn_in=10000):
         v_sample[~Mask2]=2/invgauss.rvs(np.reciprocal(np.sqrt(ink[~Mask2])))
         v_sample[Mask2]=np.random.gamma(0.5,4*np.ones_like(v_sample[Mask2]))
 
-        #Sample tau2
+        #Sample tau
         Mask3=(ink<T3)
         tau_sample[~Mask3]=v_sample[~Mask3]/np.sqrt(invgauss.rvs(v_sample[~Mask3]/ink[~Mask3]))
         tau_sample[Mask3]=np.sqrt(np.random.gamma(0.5,2*np.square(v_sample[Mask3])))
