@@ -1,6 +1,6 @@
 # Bayesian $L_{1/2}$ regression
 
-Here is the python implementation of High dimensional-Bayesian linear regression with $L_{1/2}$ prior based on our paper https://arxiv.org/pdf/2108.03464.pdf.
+Here is the Python and Matlab implementation of High dimensional-Bayesian linear regression with $L_{1/2}$ prior based on our paper https://arxiv.org/pdf/2108.03464.pdf.
 
 
 
