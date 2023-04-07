@@ -38,8 +38,7 @@ for i=2:(M+burn_in)
     % Sampling sigma2
     D=tau_sample./lam_sample.^2;
     Mask1=D>T1;
-    D_diag=spdiags(D(Mask1),0,sum(Mask1),sum(Mask1));
-    XD=X(:,Mask1)*D_diag;
+    XD=X(:,Mask1).*D(Mask1)';
     omega=XD*XD'+speye(S(1));
     YT_omega_inv_Y=Y'*(omega\Y);
     sigma2_sample(i)=1./gamrnd((w+S(1))/2,2./(w+YT_omega_inv_Y));
@@ -49,7 +48,7 @@ for i=2:(M+burn_in)
     mu=randn([S(2),1]).*D;
     v=omega\(Y./sigma-X*mu+randn([S(1),1]));
     beta_sample(:,i)=sigma*mu;
-    beta_sample(Mask1,i)=beta_sample(Mask1,i)+sigma.*(D_diag*XD'*v);
+    beta_sample(Mask1,i)=beta_sample(Mask1,i)+sigma.*(D(Mask1).*XD'*v);
 
 end
 

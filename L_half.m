@@ -21,13 +21,12 @@ for i=2:(M+burn_in)
     sigma=sqrt(sigma2_sample(1,i-1));
     D=tau_sample./lam_sample.^2;
     Mask1=D>T1;
-    D_diag=spdiags(D(Mask1),0,sum(Mask1),sum(Mask1));
     mu=randn([S(2),1]).*D;
-    XD=X(:,Mask1)*D_diag;
+    XD=X(:,Mask1).*D(Mask1)';
     omega=XD*XD'./sigma2_sample(1,i-1)+speye(S(1));
     v=omega\(Y./sigma-X*mu./sigma+randn([S(1),1]));
     beta_sample(:,i)=mu;
-    beta_sample(Mask1,i)=beta_sample(Mask1,i)+D_diag*XD'*v./sigma;
+    beta_sample(Mask1,i)=beta_sample(Mask1,i)+D(Mask1).*XD'*v./sigma;
     
 
     % Sampling lambda
