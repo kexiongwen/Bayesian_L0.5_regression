@@ -32,12 +32,12 @@ def Bayesian_L_half_regression(Y,X,M=10000,burn_in=10000):
         sigma=(sigma2_sample[i-1]**0.5)
         D=tau_sample/lam_sample**2
         Mask1=D>T1
-        D_diag=sparse.diags(D[Mask1])
+        D_diag=D[Mask1].reshape(-1,1)
         mu=np.random.randn(P,1)*D.reshape(P,1)
-        DXT=D_diag.dot(X[:,Mask1].T)
+        DXT=D_diag*X[:,Mask1].T
         omega=DXT.T@DXT/sigma2_sample[i-1]+sparse.diags(np.ones(N))
         v=np.linalg.solve(omega, (Y/sigma-X@mu/sigma-np.random.randn(N,1)))
-        beta_sample[:,i:i+1][Mask1]=mu[Mask1]+D_diag.dot(DXT).dot(v)/sigma
+        beta_sample[:,i:i+1][Mask1]=mu[Mask1]+D_diag*DXT.dot(v)/sigma
         beta_sample[:,i:i+1][~Mask1]=mu[~Mask1]
 
         #Sample lambda
@@ -110,8 +110,8 @@ def Conjugated_L_half(Y,X,M=10000,burn_in=10000):
         #Sample sigma2
         D=tau_sample/lam_sample**2
         Mask1=D>T1
-        D_diag=sparse.diags(D[Mask1])
-        DXT=D_diag.dot(X[:,Mask1].T)
+        D_diag=D[Mask1].reshape(-1,1)
+        DXT=D_diag*X[:,Mask1].T
         omega=DXT.T@DXT+sparse.diags(np.ones(N))
         YT_omega_inv_Y=Y.T@np.linalg.solve(omega,Y)
         sigma2_sample[i]=invgamma.rvs((w+N)/2)*0.5*(w+YT_omega_inv_Y)
@@ -120,7 +120,7 @@ def Conjugated_L_half(Y,X,M=10000,burn_in=10000):
         sigma=(sigma2_sample[i]**0.5)
         mu=np.random.randn(P,1)*D.reshape(P,1)
         v=np.linalg.solve(omega, (Y/sigma-X@mu-np.random.randn(N,1)))
-        beta_sample[:,i:i+1][Mask1]=sigma*(mu[Mask1]+D_diag.dot(DXT).dot(v))
+        beta_sample[:,i:i+1][Mask1]=sigma*(mu[Mask1]+D_diag*DXT.dot(v))
         beta_sample[:,i:i+1][~Mask1]=sigma*mu[~Mask1]
                       
     #End of MCMC chain
