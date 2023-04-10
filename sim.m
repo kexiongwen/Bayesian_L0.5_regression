@@ -1,6 +1,6 @@
 tic
-n=100;
-p=1000;
+n=2000;
+p=20000;
 BetaTrue = zeros(p,1);
 BetaTrue(1)=3;
 BetaTrue(2)=1.5;
@@ -25,8 +25,5 @@ toc
 sigma2_mean=mean(sigma2_sample);
 beta_mean=mean(beta_sample,2);
 L2=norm(beta_mean-BetaTrue);
-
-
-
 
 
