@@ -10,10 +10,9 @@ v_sample=ones(S(2),1);
 a_sample=1;
 lam_sample=1;
 
-w=0;
+w=1;
 T1=1e-2;
-T2=1e-5;
-T3=1e-5;
+
 
 for i=2:(M+burn_in)
 
@@ -38,14 +37,11 @@ for i=2:(M+burn_in)
     ink=lam_sample.^2.*abs(beta_sample(:,i));
 
     % Sampling V
-    Mask2=ink<T2;
-    v_sample(~Mask2)=2./random('InverseGaussian',1./sqrt(ink(~Mask2)),1);
-    v_sample(Mask2)=gamrnd(0.5,4*ones(sum(Mask2),1));
+    v_sample=2./random('InverseGaussian',1./sqrt(ink),1);
 
     % Sampling tau
-    Mask3=ink<T3;
-    tau_sample(~Mask3)=v_sample(~Mask3)./sqrt(random('InverseGaussian',v_sample(~Mask3)./ink(~Mask3),1));
-    tau_sample(Mask3)=sqrt(gamrnd(0.5,2*v_sample(Mask3).^2));
+    tau_sample=v_sample./sqrt(random('InverseGaussian',v_sample./ink,1));
+
 
     % Sampling sigma2
     err=Y-X*beta_sample(:,i);

@@ -19,7 +19,7 @@ Y=X*BetaTrue+SigmaTrue.*randn([n 1]);
 toc
 
 tic
-[beta_sample,sigma2_sample]=L_half_conjugate(Y,X);
+[beta_sample,sigma2_sample]=L_half(Y,X);
 toc
 
 sigma2_mean=mean(sigma2_sample);
