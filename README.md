@@ -83,6 +83,8 @@ Where $D= \frac{1}{\lambda^{4}}\mathrm{Diag}(\tau^{2})$.
 ## Usage
 
 ```
+from Bayesian_Lhalf_regression import Bayesian_L_half_regression
+
 beta_sample,sigma2_sample=Bayesian_L_half_regression(Y,X,M=10000,burn_in=10000) 
 
 beta_mean=np.mean(beta_sample,axis=1)
