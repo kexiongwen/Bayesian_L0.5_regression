@@ -18,6 +18,8 @@ X=mvnrnd(zeros(1,p),Corr,n);
 Y=X*BetaTrue+SigmaTrue.*randn([n 1]);
 toc
 
+
+
 tic
 [beta_sample,sigma2_sample]=L_half_GPU(Y,X);
 toc
@@ -30,6 +32,7 @@ toc
 
 sigma2_mean=mean(sigma2_sample);
 beta_mean=mean(beta_sample,2);
-L2=norm(beta_mean-BetaTrue);
 
+
+[L2,L1,sparsity,Ham,FDR,FNDR,coverage,coverage_nonzero]=metric(beta_sample,sigma2_sample,BetaTrue);
 
