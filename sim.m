@@ -19,8 +19,14 @@ Y=X*BetaTrue+SigmaTrue.*randn([n 1]);
 toc
 
 tic
-[beta_sample,sigma2_sample]=L_half(Y,X);
+[beta_sample,sigma2_sample]=L_half_GPU(Y,X);
 toc
+
+
+%tic
+%[beta_sample,sigma2_sample]=L_half(Y,X);
+%toc
+
 
 sigma2_mean=mean(sigma2_sample);
 beta_mean=mean(beta_sample,2);
