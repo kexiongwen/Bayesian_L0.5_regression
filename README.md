@@ -96,14 +96,14 @@ sigma2_median=np.median(sigma2_sample)
 
 
 
-
-$Y$ is the vector of response with length $N$ and $X$ is $N \times P$ covariate matrix. $M$ is the number of the samples from MCMC with default setting 10000. burn_in is the burn in period for MCMC with default setting 10000.  
+1. $Y$ is the vector of response with length $N$  
+2. $X$ is $N \times P$ covariate matrix. 
+3. $M$ is the number of the samples from MCMC with default setting 10000. 
+4. burn_in is the burn in period for MCMC with default setting 10000.  
 
 
 
 ## Reference
-
-
 
 ```
 @article{ke2021bayesian,
